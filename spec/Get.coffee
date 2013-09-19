@@ -26,3 +26,12 @@ describe 'Get component', ->
         chai.expect(data).to.be.a 'string'
         done()
       url.send '../package.json'
+
+  describe 'fetching an failing URL', ->
+    it 'should return an error', (done) ->
+      err = noflo.internalSocket.createSocket()
+      c.outPorts.error.attach err
+      err.on 'data', (data) ->
+        chai.expect(data).to.be.an 'object'
+        done()
+      url.send 'http://noflojs.org/foo'
