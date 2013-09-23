@@ -28,6 +28,8 @@ class GetJsonP extends noflo.AsyncComponent
       delete window[id]
       body.removeChild s
 
+      callback()
+
     # Prepare a script element
     s.type = 'application/javascript'
 
