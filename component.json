@@ -11,6 +11,7 @@
   },
   "scripts": [
     "components/Get.coffee",
+    "components/GetJsonP.coffee",
     "index.js"
   ],
   "json": [
@@ -18,7 +19,8 @@
   ],
   "noflo": {
     "components": {
-      "Get": "components/Get.coffee"
+      "Get": "components/Get.coffee",
+      "GetJsonP": "components/GetJsonP.coffee"
     }
   }
 }
