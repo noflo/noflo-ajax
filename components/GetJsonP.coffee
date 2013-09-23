@@ -30,6 +30,10 @@ class GetJsonP extends noflo.AsyncComponent
 
     # Prepare a script element
     s.type = 'application/javascript'
+
+    if url.indexOf('?') is -1
+      url = "#{url}?callback=?"
+
     s.src = url.replace 'callback=?', "callback=#{id}"
 
     # Place the script element into DOM
