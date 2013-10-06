@@ -18,6 +18,7 @@
     "component.json"
   ],
   "noflo": {
+    "icon": "globe",
     "components": {
       "Get": "components/Get.coffee",
       "GetJsonP": "components/GetJsonP.coffee"
