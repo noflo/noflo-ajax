@@ -18,7 +18,6 @@ class Get extends noflo.AsyncComponent
           @outPorts.out.beginGroup url
           @outPorts.out.send req.responseText
           @outPorts.out.endGroup()
-          @outPorts.out.disconnect()
           callback()
         else
           callback new Error "Error loading #{url}"

@@ -65,7 +65,7 @@ module.exports = ->
     mocha_phantomjs:
       options:
         output: 'spec/result.xml'
-        reporter: 'dot'
+        reporter: 'spec'
       all:
         options:
           urls: ['http://localhost:9000/spec/runner.html']

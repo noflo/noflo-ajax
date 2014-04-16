@@ -22,7 +22,6 @@ class GetJsonP extends noflo.AsyncComponent
       @outPorts.out.beginGroup url
       @outPorts.out.send data
       @outPorts.out.endGroup()
-      @outPorts.out.disconnect()
 
       # Unregister and clean up
       delete window[id]
