@@ -43,7 +43,8 @@
   "keywords": [],
   "noflo": {
     "components": {
-      "CorsProxy": "components/CorsProxy.coffee"
+      "CorsProxy": "components/CorsProxy.coffee",
+      "GetBuffer": "components/GetBuffer.coffee"
     }
   }
 }
