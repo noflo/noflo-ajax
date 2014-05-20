@@ -20,9 +20,9 @@ class GetBuffer extends noflo.AsyncComponent
       res.on 'data', (chunk) ->
         newLength = dataLength+chunk.length
         if newLength >= data.length
-            newData = new Buffer newLength*2
-            data.copy newData, 0, 0, dataLength
-            data = newData
+          newData = new Buffer newLength*2
+          data.copy newData, 0, 0, dataLength
+          data = newData
         chunk.copy data, dataLength
         dataLength = newLength
       res.on 'end', () =>
