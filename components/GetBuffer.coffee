@@ -3,6 +3,8 @@
 
 noflo = require 'noflo'
 http = require 'http'
+https = require 'https'
+urlParser = require 'url'
 
 class GetBuffer extends noflo.AsyncComponent
   constructor: ->
@@ -14,7 +16,10 @@ class GetBuffer extends noflo.AsyncComponent
     super 'url'
 
   doAsync: (url, callback) ->
-    req = http.get url, (res) =>
+    {protocol} = urlParser.parse url
+    prot = http
+    prot = https if protocol is 'https:'
+    req = prot.get url, (res) =>
       data = new Buffer 32768
       dataLength = 0
       res.on 'data', (chunk) ->
