@@ -11,13 +11,14 @@ exports.getComponent = ->
     if event is 'disconnect'
       c.outPorts.out.disconnect()
     return unless event is 'data'
-    if noflo.isBrowser()
-      unless isExternal payload
-        c.outPorts.out.send payload
-        return
-    match_http = /^(https?):\/\//
-    path = payload.replace(match_http, '')
-    url = c.service + path
-    c.outPorts.out.send url
+    if noflo.isBrowser() and not isExternal payload
+      out = payload
+    else
+      match_http = /^(https?):\/\//
+      path = payload.replace(match_http, '')
+      out = c.service + path
+    c.outPorts.out.beginGroup payload
+    c.outPorts.out.send out
+    c.outPorts.out.endGroup()
   c.outPorts.add 'out'
   c
