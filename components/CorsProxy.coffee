@@ -8,6 +8,10 @@ exports.getComponent = ->
   c.service = 'http://www.corsproxy.com/'
   
   c.inPorts.add 'in', (event, payload) ->
+    if event is 'begingroup'
+      c.outPorts.out.beginGroup payload
+    if event is 'endgroup'
+      c.outPorts.out.endGroup()
     if event is 'disconnect'
       c.outPorts.out.disconnect()
     return unless event is 'data'
