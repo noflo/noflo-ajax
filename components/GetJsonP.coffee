@@ -8,6 +8,7 @@ class GetJsonP extends noflo.AsyncComponent
       url: new noflo.Port 'string'
     @outPorts =
       out: new noflo.Port 'string'
+      error: new noflo.Port 'object'
 
     super 'url'
 
@@ -18,18 +19,25 @@ class GetJsonP extends noflo.AsyncComponent
     # Get the body element
     body = document.querySelector 'body'
     s = document.createElement 'script'
+    s.onerror = (e) ->
+      delete window[id]
+      body.removeChild s
+      callback e
 
     # Register a function with the unique ID
     window[id] = (data) =>
+      # Cleanup
+      delete window[id]
+      body.removeChild s
+
+      if data and data.meta and data.meta.status is 404
+        return callback new Error "#{url} not found}"
+
       @outPorts.out.beginGroup url
       @outPorts.out.send data
       @outPorts.out.endGroup()
 
-      # Unregister and clean up
-      delete window[id]
-      body.removeChild s
-
-      callback()
+      do callback
 
     # Prepare a script element
     s.type = 'application/javascript'
