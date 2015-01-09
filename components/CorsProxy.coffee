@@ -1,6 +1,7 @@
 noflo = require 'noflo'
 
 isExternal = (url) ->
+  return false if url.indexOf('data:') is 0
   (location.href.replace("http://", "").replace("https://", "").split("/")[0] isnt url.replace("http://", "").replace("https://", "").split("/")[0])
 
 exports.getComponent = ->
