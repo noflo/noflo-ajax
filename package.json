@@ -34,7 +34,7 @@
     "grunt-mocha-phantomjs": "~0.6.0",
     "grunt-noflo-browser": "^0.1.2",
     "grunt-noflo-manifest": "^0.1.5",
-    "mocha": "~1.21.0"
+    "mocha": "~2.5.1"
   },
   "keywords": [],
   "noflo": {
