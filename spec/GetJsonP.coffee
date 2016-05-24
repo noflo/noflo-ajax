@@ -69,7 +69,7 @@ describe 'GetJsonP component', ->
     gistUrl = 'https://api.github.com/gists/does_not_exist'
     it 'should send to the error port', (done) ->
       err.on 'data', (data) ->
-        chai.expect(data).to.be.a 'object'
+        chai.expect(data).to.be.an 'error'
         done()
       url.send gistUrl
     it 'should have removed the temporary function', ->
@@ -89,7 +89,7 @@ describe 'GetJsonP component', ->
     gistUrl = 'http://localhost:9000/foo/bar/baz'
     it 'should send to the error port', (done) ->
       err.on 'data', (data) ->
-        chai.expect(data).to.be.a 'object'
+        chai.expect(data).to.be.an 'error'
         done()
       url.send gistUrl
     it 'should have removed the temporary function', ->
