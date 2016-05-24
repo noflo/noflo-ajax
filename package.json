@@ -10,12 +10,7 @@
     "type": "git",
     "url": "git://github.com/noflo/noflo-ajax.git"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "undefined/blob/master/LICENSE-MIT"
-    }
-  ],
+  "license": "MIT",
   "scripts": {
     "test": "grunt test"
   },
@@ -36,7 +31,7 @@
     "grunt-noflo-manifest": "^0.1.5",
     "mocha": "~2.4.5"
   },
-  "keywords": [],
+  "keywords": ["noflo"],
   "noflo": {
     "components": {
       "CorsProxy": "components/CorsProxy.coffee",
