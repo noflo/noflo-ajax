@@ -89,7 +89,7 @@ describe 'GetJsonP component', ->
     gistUrl = 'http://localhost:9000/foo/bar/baz'
     it 'should send to the error port', (done) ->
       err.on 'data', (data) ->
-        chai.expect(typeof data).to.be.an 'object'
+        chai.expect(typeof data).to.equal 'object'
         done()
       url.send gistUrl
     it 'should have removed the temporary function', ->
