@@ -50,6 +50,7 @@ module.exports = ->
       options:
         output: 'spec/result.xml'
         reporter: 'spec'
+        failWithOutput: true
       all:
         options:
           urls: ['http://localhost:9000/spec/runner.html']
