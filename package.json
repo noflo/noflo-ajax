@@ -1,7 +1,7 @@
 {
   "name": "noflo-ajax",
   "description": "AJAX components for NoFlo",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "author": {
     "name": "Henri Bergius",
     "email": "henri.bergius@iki.fi"
@@ -33,6 +33,7 @@
   },
   "keywords": ["noflo"],
   "noflo": {
+    "icon": "globe",
     "components": {
       "CorsProxy": "components/CorsProxy.coffee",
       "GetBuffer": "components/GetBuffer.coffee"
