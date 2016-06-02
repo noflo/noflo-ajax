@@ -15,7 +15,7 @@
     "test": "grunt test"
   },
   "dependencies": {
-    "noflo": "~0.6.0"
+    "noflo": "~0.7.6"
   },
   "devDependencies": {
     "chai": "~3.5.0",
@@ -31,7 +31,9 @@
     "grunt-noflo-manifest": "^0.1.5",
     "mocha": "~2.4.5"
   },
-  "keywords": ["noflo"],
+  "keywords": [
+    "noflo"
+  ],
   "noflo": {
     "icon": "globe",
     "components": {
