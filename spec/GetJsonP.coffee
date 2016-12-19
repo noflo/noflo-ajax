@@ -1,19 +1,30 @@
 noflo = require 'noflo'
-GetJsonP = require 'noflo-ajax/components/GetJsonP.js'
+baseDir = 'noflo-ajax'
 
 describe 'GetJsonP component', ->
   c = null
   url = null
   out = null
   err = null
+  before (done) ->
+    @timeout 4000
+    loader = new noflo.ComponentLoader baseDir
+    loader.load 'ajax/GetJsonP', (err, instance) ->
+      return done err if err
+      c = instance
+      url = noflo.internalSocket.createSocket()
+      c.inPorts.url.attach url
+      done()
   beforeEach ->
-    c = GetJsonP.getComponent()
-    url = noflo.internalSocket.createSocket()
     out = noflo.internalSocket.createSocket()
-    err = noflo.internalSocket.createSocket()
-    c.inPorts.url.attach url
     c.outPorts.out.attach out
+    err = noflo.internalSocket.createSocket()
     c.outPorts.error.attach err
+  afterEach ->
+    c.outPorts.out.detach out
+    out = null
+    c.outPorts.error.detach err
+    err = null
 
   describe 'when instantiated', ->
     it 'should have an url port', ->

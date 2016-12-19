@@ -32,13 +32,6 @@ module.exports = ->
       files: ['spec/*.coffee', 'components/*.coffee']
       tasks: ['test']
 
-    # BDD tests on Node.js
-    cafemocha:
-      nodejs:
-        src: ['spec/*.coffee']
-        options:
-          reporter: 'spec'
-
     # Run a server for the tests so we can actually do AJAX
     connect:
       test:
@@ -73,7 +66,6 @@ module.exports = ->
   # Grunt plugins used for testing
   @loadNpmTasks 'grunt-contrib-connect'
   @loadNpmTasks 'grunt-contrib-watch'
-  @loadNpmTasks 'grunt-cafe-mocha'
   @loadNpmTasks 'grunt-mocha-phantomjs'
   @loadNpmTasks 'grunt-coffeelint'
 
@@ -86,10 +78,6 @@ module.exports = ->
   @registerTask 'test', 'Build NoFlo and run automated tests', (target = 'all') =>
     @task.run 'coffeelint'
     @task.run 'build'
-    if target is 'all' or target is 'nodejs'
-      # Currently no tests for node.js
-      # @task.run 'cafemocha'
-      null
     if target is 'all' or target is 'browser'
       @task.run 'coffee'
       @task.run 'connect'
