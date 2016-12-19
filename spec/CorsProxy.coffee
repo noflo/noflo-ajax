@@ -1,16 +1,25 @@
 noflo = require 'noflo'
-CorsProxy = require 'noflo-ajax/components/CorsProxy.js'
+baseDir = 'noflo-ajax'
 
 describe 'CorsProxy component', ->
   c = null
   url = null
   out = null
+  before (done) ->
+    @timeout 4000
+    loader = new noflo.ComponentLoader baseDir
+    loader.load 'ajax/CorsProxy', (err, instance) ->
+      return done err if err
+      c = instance
+      url = noflo.internalSocket.createSocket()
+      c.inPorts.in.attach url
+      done()
   beforeEach ->
-    c = CorsProxy.getComponent()
-    url = noflo.internalSocket.createSocket()
     out = noflo.internalSocket.createSocket()
-    c.inPorts.in.attach url
     c.outPorts.out.attach out
+  afterEach ->
+    c.outPorts.out.detach out
+    out = null
 
   describe 'when instantiated', ->
     it 'should have an in port', ->
