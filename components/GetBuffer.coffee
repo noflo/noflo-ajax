@@ -6,20 +6,25 @@ http = require 'http'
 https = require 'https'
 urlParser = require 'url'
 
-class GetBuffer extends noflo.AsyncComponent
-  constructor: ->
-    @inPorts =
-      url: new noflo.Port 'string'
-    @outPorts =
-      out: new noflo.Port 'object'
-      error: new noflo.Port 'object'
-    super 'url'
-
-  doAsync: (url, callback) ->
+exports.getComponent = ->
+  c = new noflo.Component
+  c.icon = 'globe'
+  c.description = 'HTTP GET a URL to a Buffer'
+  c.inPorts.add 'url',
+    datatype: 'string'
+  c.outPorts.add 'out',
+    datatype: 'string'
+  c.outPorts.add 'error',
+    datatype: 'object'
+  c.forwardBrackets =
+    url: ['out', 'error']
+  c.process (input, output) ->
+    return unless input.hasData 'url'
+    url = input.getData 'url'
     {protocol} = urlParser.parse url
     prot = http
     prot = https if protocol is 'https:'
-    req = prot.get url, (res) =>
+    req = prot.get url, (res) ->
       data = new Buffer 32768
       dataLength = 0
       res.on 'data', (chunk) ->
@@ -30,13 +35,9 @@ class GetBuffer extends noflo.AsyncComponent
           data = newData
         chunk.copy data, dataLength
         dataLength = newLength
-      res.on 'end', () =>
-        @outPorts.out.beginGroup url
+      res.on 'end', ->
         slice = data.slice 0, dataLength
-        @outPorts.out.send slice
-        @outPorts.out.endGroup()
-        callback()
+        output.sendDone
+          out: slice
       req.on 'error', ->
-        callback new Error "Error loading #{url}"
-
-exports.getComponent = -> new GetBuffer
+        output.done new Error "Error loading #{url}"
