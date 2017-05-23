@@ -32,7 +32,7 @@ describe 'CorsProxy component', ->
     it 'should send path prefixed with corsproxy', (done) ->
       out.on 'data', (data) ->
         chai.expect(data).to.be.a 'string'
-        chai.expect(data).to.equal 'http://www.corsproxy.com/'+'example.com/mypath.ext'
+        chai.expect(data).to.equal c.service+'example.com/mypath.ext'
         done()
       url.send inputurl
 

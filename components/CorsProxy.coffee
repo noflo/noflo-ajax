@@ -10,7 +10,7 @@ exports.getComponent = ->
   c = new noflo.Component
   c.description = 'Converts a URL to use a CORS-enabling proxy'
   c.icon = 'arrow-circle-o-right'
-  c.service = 'http://www.corsproxy.com/'
+  c.service = 'http://crossorigin.me/'
   c.inPorts.add 'in',
     datatype: 'string'
   c.outPorts.add 'out',
