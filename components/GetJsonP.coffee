@@ -2,17 +2,22 @@
 
 noflo = require 'noflo'
 
-class GetJsonP extends noflo.AsyncComponent
-  constructor: ->
-    @inPorts =
-      url: new noflo.Port 'string'
-    @outPorts =
-      out: new noflo.Port 'string'
-      error: new noflo.Port 'object'
+exports.getComponent = ->
+  c = new noflo.Component
+  c.icon = 'globe'
+  c.description = 'Get contents via JSONP from a URL'
+  c.inPorts.add 'url',
+    datatype: 'string'
+  c.outPorts.add 'out',
+    datatype: 'string'
+  c.outPorts.add 'error',
+    datatype: 'object'
+  c.forwardBrackets =
+    url: ['out', 'error']
+  c.process (input, output) ->
+    return unless input.hasData 'url'
+    url = input.getData 'url'
 
-    super 'url'
-
-  doAsync: (url, callback) ->
     # Construct a unique identifier for the callback
     id = 'noflo'+(Math.random()*100).toString().replace /\./g, ''
 
@@ -22,22 +27,19 @@ class GetJsonP extends noflo.AsyncComponent
     s.onerror = (e) ->
       delete window[id]
       body.removeChild s
-      callback e
+      output.done e
 
     # Register a function with the unique ID
-    window[id] = (data) =>
+    window[id] = (data) ->
       # Cleanup
       delete window[id]
       body.removeChild s
 
       if data and data.meta and data.meta.status is 404
-        return callback new Error "#{url} not found}"
+        return output.done new Error "#{url} not found}"
 
-      @outPorts.out.beginGroup url
-      @outPorts.out.send data
-      @outPorts.out.endGroup()
-
-      do callback
+      output.sendDone
+        out: data
 
     # Prepare a script element
     s.type = 'application/javascript'
@@ -49,5 +51,3 @@ class GetJsonP extends noflo.AsyncComponent
 
     # Place the script element into DOM
     body.appendChild s
-
-exports.getComponent = -> new GetJsonP

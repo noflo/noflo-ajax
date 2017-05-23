@@ -29,27 +29,15 @@ describe 'CorsProxy component', ->
 
   describe 'when sending an external url in', ->
     inputurl = 'http://example.com/mypath.ext'
-    it 'should send a group with the input url', (done) ->
-      out.on 'begingroup', (data) ->
-        chai.expect(data).to.be.a 'string'
-        chai.expect(data).to.equal inputurl
-        done()
-      url.send inputurl
     it 'should send path prefixed with corsproxy', (done) ->
       out.on 'data', (data) ->
         chai.expect(data).to.be.a 'string'
-        chai.expect(data).to.equal 'http://www.corsproxy.com/'+'example.com/mypath.ext'
+        chai.expect(data).to.equal c.service+'example.com/mypath.ext'
         done()
       url.send inputurl
 
   describe 'when sending a local url in', ->
     inputurl = 'http://localhost:9000/mypath.ext'
-    it 'should send a group with the input url', (done) ->
-      out.on 'begingroup', (data) ->
-        chai.expect(data).to.be.a 'string'
-        chai.expect(data).to.equal inputurl
-        done()
-      url.send inputurl
     it 'should send url unmodified', (done) ->
       out.on 'data', (data) ->
         chai.expect(data).to.be.a 'string'

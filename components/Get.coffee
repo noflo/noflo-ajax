@@ -2,28 +2,29 @@
 
 noflo = require 'noflo'
 
-class Get extends noflo.AsyncComponent
-  constructor: ->
-    @inPorts =
-      url: new noflo.Port 'string'
-    @outPorts =
-      out: new noflo.Port 'string'
-      error: new noflo.Port 'object'
+exports.getComponent = ->
+  c = new noflo.Component
+  c.icon = 'globe'
+  c.description = 'HTTP GET a URL'
+  c.inPorts.add 'url',
+    datatype: 'string'
+  c.outPorts.add 'out',
+    datatype: 'string'
+  c.outPorts.add 'error',
+    datatype: 'object'
+  c.forwardBrackets =
+    url: ['out', 'error']
+  c.process (input, output) ->
+    return unless input.hasData 'url'
+    url = input.getData 'url'
 
-    super 'url'
-
-  doAsync: (url, callback) ->
     req = new XMLHttpRequest
-    req.onreadystatechange = =>
-      if req.readyState is 4
-        if req.status is 200
-          @outPorts.out.beginGroup url
-          @outPorts.out.send req.responseText
-          @outPorts.out.endGroup()
-          callback()
-        else
-          callback new Error "Error loading #{url}"
+    req.onreadystatechange = ->
+      return unless req.readyState is 4
+      if req.status is 200
+        output.sendDone
+          out: req.responseText
+        return
+      output.done new Error "Error loading #{url}"
     req.open 'GET', url, true
     req.send null
-
-exports.getComponent = -> new Get
