@@ -7,7 +7,7 @@ module.exports = ->
     noflo_browser:
       build:
         files:
-          'browser/noflo-ajax.js': ['component.json']
+          'browser/noflo-ajax.js': ['package.json']
 
     # CoffeeScript compilation
     coffee:
