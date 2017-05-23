@@ -8,23 +8,23 @@ isExternal = (url) ->
 
 exports.getComponent = ->
   c = new noflo.Component
+  c.description = 'Converts a URL to use a CORS-enabling proxy'
+  c.icon = 'arrow-circle-o-right'
   c.service = 'http://www.corsproxy.com/'
-  
-  c.inPorts.add 'in', (event, payload) ->
-    if event is 'begingroup'
-      c.outPorts.out.beginGroup payload
-    if event is 'endgroup'
-      c.outPorts.out.endGroup()
-    if event is 'disconnect'
-      c.outPorts.out.disconnect()
-    return unless event is 'data'
+  c.inPorts.add 'in',
+    datatype: 'string'
+  c.outPorts.add 'out',
+    datatype: 'string'
+  c.process (input, output) ->
+    return unless input.hasData 'in'
+    payload = input.getData 'in'
+    unless typeof payload is 'string'
+      return output.done new Error 'String required'
+
     out = payload
     if noflo.isBrowser() and isExternal payload
       match_http = /^(https?):\/\//
       path = payload.replace(match_http, '')
       out = c.service + path
-    c.outPorts.out.beginGroup payload
-    c.outPorts.out.send out
-    c.outPorts.out.endGroup()
-  c.outPorts.add 'out'
-  c
+    output.sendDone
+      out: out
