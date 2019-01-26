@@ -1,6 +1,3 @@
-noflo = require 'noflo'
-baseDir = 'noflo-ajax'
-
 describe 'GetJsonP component', ->
   c = null
   url = null

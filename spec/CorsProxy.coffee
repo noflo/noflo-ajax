@@ -1,6 +1,3 @@
-noflo = require 'noflo'
-baseDir = 'noflo-ajax'
-
 describe 'CorsProxy component', ->
   c = null
   url = null
@@ -37,7 +34,7 @@ describe 'CorsProxy component', ->
       url.send inputurl
 
   describe 'when sending a local url in', ->
-    inputurl = 'http://localhost:9000/mypath.ext'
+    inputurl = 'http://localhost:9876/mypath.ext'
     it 'should send url unmodified', (done) ->
       out.on 'data', (data) ->
         chai.expect(data).to.be.a 'string'
